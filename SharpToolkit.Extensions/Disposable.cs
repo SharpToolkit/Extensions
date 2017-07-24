@@ -8,38 +8,39 @@ namespace SharpToolkit.Extensions
     public abstract class Disposable : IDisposable
     {
         private bool disposed = false;
-        private bool throwOnFinalize;
-
+        
         /// <summary>
-        /// Initializes new instance of Disposable, that doesn't throw on finalize.
-        /// </summary>
-        public Disposable() { }
-
-        /// <summary>
-        /// Can be overriden to track finalizer call, in cases when such call is considered a bug.
+        /// Enables tracking of finalizer calls, in cases when those are considered bugs.
         /// </summary>
         protected virtual void ReportFinalization() { }
 
         /// <summary>
-        /// This methods does the actual disposing.
+        /// Disposes of managed resources.
         /// </summary>
-        protected abstract void DisposeImpl();
+        protected abstract void DisposeManaged();
 
+        /// <summary>
+        /// Disposes of unmanaged resources.
+        /// </summary>
+        protected abstract void DisposeUnmanaged();
+        
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposed)
                 return;
 
             if (disposing)
             {
-                DisposeImpl();
+                DisposeManaged();
             }
+
+            DisposeUnmanaged();
             
             disposed = true;
         }
