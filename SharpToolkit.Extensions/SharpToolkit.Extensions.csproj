@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.0</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Dmitriy Sorkin</Authors>
+    <Company>SharpToolkit</Company>
+    <Product>SharpToolkit</Product>
+    <Description>A collection of extensions and tools for accessing and using the .NET Framework.</Description>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/SharpToolkit/Extensions/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SharpToolkit/Extensions</PackageProjectUrl>
+  </PropertyGroup>
+
+</Project>
