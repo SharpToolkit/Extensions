@@ -3,7 +3,3 @@
 A collection of extensions and tools for accessing and using the .NET Framework.
 
 The project tries to mimic the .NET namespace, so for example, if you look for tools to work with `IEnumerable<T>`, those would be in `SharpToolkit.Extensions.Collections.Generic`.
-
-## Contribution
-
-The code should apply to Microsoft's [coding conventions](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/inside-a-program/coding-conventions) and [design guidelines](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/)
