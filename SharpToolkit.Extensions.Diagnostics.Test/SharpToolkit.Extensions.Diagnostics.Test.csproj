@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SharpToolkit.Extensions.Testing\SharpToolkit.Extensions.Testing.csproj" />
+    <ProjectReference Include="..\SharpToolkit.Extensions.Diagnostics\SharpToolkit.Extensions.Diagnostics.csproj" />
   </ItemGroup>
 
   <ItemGroup>

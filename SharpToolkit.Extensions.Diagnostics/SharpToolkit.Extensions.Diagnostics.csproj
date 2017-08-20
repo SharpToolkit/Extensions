@@ -7,7 +7,7 @@
     <Authors>Dmitriy Sorkin</Authors>
     <Company>SharpToolkit</Company>
     <Product>SharpToolkit</Product>
-    <Description>A collection of extensions and tools for application testing.</Description>
+    <Description>A collection of extensions and tools for application diagnostics.</Description>
     <PackageLicenseUrl>https://raw.githubusercontent.com/SharpToolkit/Extensions/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SharpToolkit/Extensions</PackageProjectUrl>
   </PropertyGroup>

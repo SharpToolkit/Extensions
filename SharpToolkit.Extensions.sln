@@ -1,5 +1,4 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -15,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpToolkit.Extensions.Col
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpToolkit.Extensions.Collections.Test", "SharpToolkit.Extensions.Collections.Test\SharpToolkit.Extensions.Collections.Test.csproj", "{9B17C65E-E1BC-4FAF-80EC-D2569B44C6FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpToolkit.Extensions.Testing", "SharpToolkit.Extensions.Testing\SharpToolkit.Extensions.Testing.csproj", "{771C4D7B-C7F5-4BC2-9DE0-324CBE5EBE7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpToolkit.Extensions.Diagnostics", "SharpToolkit.Extensions.Diagnostics\SharpToolkit.Extensions.Diagnostics.csproj", "{771C4D7B-C7F5-4BC2-9DE0-324CBE5EBE7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpToolkit.Extensions.Testing.Test", "SharpToolkit.Extensions.Testing.Test\SharpToolkit.Extensions.Testing.Test.csproj", "{A88F2C08-0F12-4C82-BA09-078D039C921F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpToolkit.Extensions.Diagnostics.Test", "SharpToolkit.Extensions.Diagnostics.Test\SharpToolkit.Extensions.Diagnostics.Test.csproj", "{A88F2C08-0F12-4C82-BA09-078D039C921F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
