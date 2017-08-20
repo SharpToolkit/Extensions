@@ -11,6 +11,8 @@ namespace SharpToolkit.Extensions.Diagnostics.Test
     {
         class TestClass
         {
+            public bool value = true;
+
             public void Method()
             {
                 SynchronizationContract.Enter(this, 1);
@@ -120,6 +122,41 @@ namespace SharpToolkit.Extensions.Diagnostics.Test
             }
 
             Assert.IsFalse(overflowed);
+        }
+
+        [TestMethod]
+        public void SynchronizationContract_Condition_Correct()
+        {
+            SynchronizationContract.Enter(this, 1, () => true);
+            SynchronizationContract.Exit(this);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SynchronizationException))]
+        public void SynchronizationContract_Condition_IncorrectEntry()
+        {
+            SynchronizationContract.Enter(this, 1, () => false);
+            SynchronizationContract.Exit(this);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SynchronizationException))]
+        public void SynchronizationContract_Condition_IncorrectExit()
+        {
+            var thing = new TestClass { value = true };
+
+            try
+            {
+                SynchronizationContract.Enter(this, 1, () => thing.value);
+            }
+            catch
+            {
+                Assert.Fail();
+            }
+
+            thing.value = false;
+
+            SynchronizationContract.Exit(this);
         }
     }
 }

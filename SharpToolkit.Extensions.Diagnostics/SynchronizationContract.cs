@@ -9,11 +9,28 @@ namespace SharpToolkit.Extensions.Diagnostics
     /// </summary>
     public class SynchronizationContract
     {
+        private static object syncRoot;
+
         private static Dictionary<object, int> entries;
+        private static Dictionary<object, Func<bool>> conditions;
 
         static SynchronizationContract()
         {
+            syncRoot = new object();
             Reset();
+        }
+
+        private static void enterUnsafe(object obj, int limit)
+        {
+            if (false == entries.ContainsKey(obj))
+                entries.Add(obj, 0);
+
+            entries[obj] = entries[obj] + 1;
+
+            if (entries[obj] > limit)
+            {
+                throw new SynchronizationException($"More than {limit} threads have entered the {obj.ToString()} code block.");
+            }
         }
 
         /// <summary>
@@ -27,17 +44,23 @@ namespace SharpToolkit.Extensions.Diagnostics
         [Conditional("DEBUG")]
         public static void Enter(object obj, int limit)
         {
-            lock (entries)
+            lock (syncRoot)
             {
-                if (false == entries.ContainsKey(obj))
-                    entries.Add(obj, 0);
+                enterUnsafe(obj, limit);
+            }
+        }
 
-                entries[obj] = entries[obj] + 1;
+        [Conditional("DEBUG")]
+        public static void Enter(object obj, int limit, Func<bool> predicate)
+        {
+            lock (syncRoot)
+            {
+                if (false == predicate())
+                    throw new SynchronizationException("Conditional entry failed.");
 
-                if (entries[obj] > limit)
-                {
-                    throw new SynchronizationException($"More than {limit} threads have entered the {obj.ToString()} code block.");
-                }
+                enterUnsafe(obj, limit);
+
+                conditions.Add(obj, predicate);
             }
         }
 
@@ -50,7 +73,7 @@ namespace SharpToolkit.Extensions.Diagnostics
         {
             var r = 0;
 
-            lock (entries)
+            lock (syncRoot)
             {
                 r = entries[obj];
             }
@@ -65,12 +88,20 @@ namespace SharpToolkit.Extensions.Diagnostics
         [Conditional("DEBUG")]
         public static void Exit(object obj)
         {
-            lock (entries)
+            lock (syncRoot)
             {
                 entries[obj] = entries[obj] - 1;
 
                 if (entries[obj] < 0)
                     throw new SynchronizationException($"Code block {obj.ToString()} has exited more times than entered.");
+
+                if (conditions.ContainsKey(obj))
+                {
+                    if (false == conditions[obj]())
+                        throw new SynchronizationException("Conditional exit failed");
+
+                    conditions.Remove(obj);
+                }
             }
         }
 
@@ -80,6 +111,7 @@ namespace SharpToolkit.Extensions.Diagnostics
         public static void Reset()
         {
             entries = new Dictionary<object, int>();
+            conditions = new Dictionary<object, Func<bool>>();
         }
     }
 }
