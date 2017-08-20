@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SharpToolkit.Extensions.Testing
+namespace SharpToolkit.Extensions.Diagnostics
 {
     public class SynchronizationException : Exception
     {

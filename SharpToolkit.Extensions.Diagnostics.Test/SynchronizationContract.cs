@@ -1,10 +1,10 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SharpToolkit.Extensions.Testing;
+using SharpToolkit.Extensions.Diagnostics;
 using System.Threading;
 using System.Linq;
 
-namespace SharpToolkit.Extensions.Testing.Test
+namespace SharpToolkit.Extensions.Diagnostics.Test
 {
     [TestClass]
     public class SynchronizationContractTests
@@ -50,6 +50,7 @@ namespace SharpToolkit.Extensions.Testing.Test
         public void SynchronizationContract_Overflow_Multithreaded()
         {
             var overflowed = false;
+            var totalEntries = 0;
 
             var threads = new Thread[2];
 
@@ -58,6 +59,7 @@ namespace SharpToolkit.Extensions.Testing.Test
                 {
                     try
                     {
+                        Interlocked.Increment(ref totalEntries);
                         SynchronizationContract.Enter(threads, 1);
                         Thread.Sleep(1000);
                     }
@@ -77,6 +79,7 @@ namespace SharpToolkit.Extensions.Testing.Test
             }
 
             Assert.IsTrue(overflowed);
+            Assert.AreEqual(totalEntries, 2);
         }
 
         [TestMethod]

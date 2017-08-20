@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace SharpToolkit.Extensions.Testing
+namespace SharpToolkit.Extensions.Diagnostics
 {
     /// <summary>
     /// Contains methods for tracing access to blocks of code.
