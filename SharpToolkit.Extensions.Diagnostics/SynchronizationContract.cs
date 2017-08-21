@@ -20,12 +20,17 @@ namespace SharpToolkit.Extensions.Diagnostics
             Reset();
         }
 
-        private static void enterUnsafe(object obj, int limit)
+        private static void enterUnsafeUnchecked(object obj)
         {
             if (false == entries.ContainsKey(obj))
                 entries.Add(obj, 0);
 
             entries[obj] = entries[obj] + 1;
+        }
+
+        private static void enterUnsafe(object obj, int limit)
+        {
+            enterUnsafeUnchecked(obj);
 
             if (entries[obj] > limit)
             {
@@ -33,8 +38,16 @@ namespace SharpToolkit.Extensions.Diagnostics
             }
         }
 
+        private static void enterUnsafe(object obj, Func<bool> predicate)
+        {
+            if (false == predicate())
+                throw new SynchronizationException("Conditional entry failed.");
+
+            conditions.Add(obj, predicate);
+        }
+
         /// <summary>
-        /// Registers an entry to a code block.
+        /// Registers an entry to a code block with limited participants.
         /// </summary>
         /// <param name="obj">The object that is used to identify the block.</param>
         /// <param name="limit">Maximum namber of threads allowed inside the block.</param>
@@ -50,17 +63,41 @@ namespace SharpToolkit.Extensions.Diagnostics
             }
         }
 
+        /// <summary>
+        /// Registers an entry to a code block with a condition.
+        /// </summary>
+        /// <param name="obj">The object that is used to identify the block.</param>
+        /// <param name="predicate">The condition to code block entry.</param>
+        /// <exception cref="SynchronizationException">
+        /// Thrown when the condition is not met.
+        /// </exception>
+        [Conditional("DEBUG")]
+        public static void Enter(object obj, Func<bool> predicate)
+        {
+            lock (syncRoot)
+            {
+                enterUnsafeUnchecked(obj);
+                enterUnsafe(obj, predicate);
+            }
+        }
+
+        /// <summary>
+        /// Registers an entry to a code block with limited participants and a condition.
+        /// </summary>
+        /// <param name="obj">The object that is used to identify the block.</param>
+        /// <param name="limit">Maximum namber of threads allowed inside the block.</param>
+        /// <param name="predicate">The condition to code block entry.</param>
+        /// <exception cref="SynchronizationException">
+        /// Thrown when the number of threads inside the code block is higher than the limit
+        /// or when the condition is not met.
+        /// </exception>
         [Conditional("DEBUG")]
         public static void Enter(object obj, int limit, Func<bool> predicate)
         {
             lock (syncRoot)
             {
-                if (false == predicate())
-                    throw new SynchronizationException("Conditional entry failed.");
-
                 enterUnsafe(obj, limit);
-
-                conditions.Add(obj, predicate);
+                enterUnsafe(obj, predicate);
             }
         }
 
@@ -85,6 +122,10 @@ namespace SharpToolkit.Extensions.Diagnostics
         /// Registers an exit from a code block.
         /// </summary>
         /// <param name="obj">The object that is used to identify the block.</param>
+        /// <exception cref="SynchronizationException">
+        /// When number of exiting threads exceeds number of entering threads
+        /// or when the condition is not met, when available.
+        /// </exception>
         [Conditional("DEBUG")]
         public static void Exit(object obj)
         {

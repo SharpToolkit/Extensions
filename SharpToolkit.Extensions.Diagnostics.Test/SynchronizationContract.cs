@@ -129,11 +129,31 @@ namespace SharpToolkit.Extensions.Diagnostics.Test
         {
             SynchronizationContract.Enter(this, 1, () => true);
             SynchronizationContract.Exit(this);
+
+            SynchronizationContract.Enter(this, () => true);
+            SynchronizationContract.Exit(this);
+
+            SynchronizationContract.Enter(this, 1);
+            SynchronizationContract.Exit(this);
+
+            SynchronizationContract.Enter(this, 1, () => true);
+            SynchronizationContract.Exit(this);
+
+            SynchronizationContract.Enter(this, 1);
+            SynchronizationContract.Exit(this);
         }
 
         [TestMethod]
         [ExpectedException(typeof(SynchronizationException))]
         public void SynchronizationContract_Condition_IncorrectEntry()
+        {
+            SynchronizationContract.Enter(this, () => false);
+            SynchronizationContract.Exit(this);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(SynchronizationException))]
+        public void SynchronizationContract_ConditionWithLimit_IncorrectEntry()
         {
             SynchronizationContract.Enter(this, 1, () => false);
             SynchronizationContract.Exit(this);
