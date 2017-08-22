@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.6</TargetFramework>
+    <Version>0.1.0</Version>
+    <Authors>Dmitriy Sorkin</Authors>
+    <Company>SharpToolkit</Company>
+    <Product>SharpToolkit</Product>
+    <Description>A collection of extensions and tools for accessing reflection and compiler.</Description>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/SharpToolkit/Extensions/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/SharpToolkit/Extensions</PackageProjectUrl>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>

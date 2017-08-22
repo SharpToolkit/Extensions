@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SharpToolkit.Extensions.Reflection.Compilation
 {
-    public static class ConstructorCompiler
+    public static class Compile
     {
         /// <summary>
         /// Compiles a constructor call wrapped in lambda. This method works almost as fast as static call.
@@ -18,7 +18,7 @@ namespace SharpToolkit.Extensions.Reflection.Compilation
         /// </remarks>
         /// <param name="constr">The constructor info for which the labbda would be compiled.</param>
         /// <returns>A lambda delegate.</returns>
-        public static Delegate CompileConstructorCall(this ConstructorInfo constr)
+        public static Delegate ConstructorCall(ConstructorInfo constr)
         {
             var parameters =
                 constr.GetParameters()

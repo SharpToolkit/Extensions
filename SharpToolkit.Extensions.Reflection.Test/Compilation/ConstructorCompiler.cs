@@ -10,7 +10,7 @@ namespace SharpToolkit.Extensions.Reflection.Test.Compilation
     public class ConstructorCompiler
     {
         [TestMethod]
-        public void ConstructorCompilerLambda()
+        public void Compile_ConstructorCall()
         {
             var ci =
                 typeof(TestTarget).GetTypeInfo().DeclaredConstructors
@@ -19,7 +19,7 @@ namespace SharpToolkit.Extensions.Reflection.Test.Compilation
                     .Select(y => y.ParameterType)
                     .SequenceEqual(new[] { typeof(string), typeof(string) })).Single();
 
-            var l = (Func<string, string, TestTarget>)ci.CompileConstructorCall();
+            var l = (Func<string, string, TestTarget>)Compile.ConstructorCall(ci);
 
             var obj = l("some", "string");
 
