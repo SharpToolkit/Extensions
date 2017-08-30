@@ -25,6 +25,7 @@ namespace SharpToolkit.Extensions.Diagnostics.Testing
         {
             Contract.ContractFailed += (sender, args) =>
             {
+                // TODO: Pass the contract arguments inside the action.
                 if (OnContractFailedAction != null)
                     OnContractFailedAction();
 
