@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace SharpToolkit.Extensions.Diagnostics.Testing
 {
-    public class MultithreadedTestRig
+    public abstract class MultithreadedTestRig
     {
         public static Action OnContractFailedAction { get; set; }
 
