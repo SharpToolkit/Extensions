@@ -20,32 +20,77 @@ namespace SharpToolkit.Extensions.Collections
             return e;
         }
 
-        public static U SwitchBy<T, U>(
+        /// <summary>
+        /// Executes one of three passed functions depending on the
+        /// relative amount of items that satisfy the predicate.
+        /// </summary>
+        /// <typeparam name="T">Type of the enumerable.</typeparam>
+        /// <typeparam name="U">Return type.</typeparam>
+        /// <param name="e">The enumerable.</param>
+        /// <param name="predicate">The predicate which switches the function.</param>
+        /// <param name="allFn">Function to execute when all items satisfy the predicate.</param>
+        /// <param name="someFn">Function to execute when some of the items satisfy the predicate.</param>
+        /// <param name="noneFn">Function to execute when none of the items satisfy the predicate.</param>
+        /// <returns>The value that was returned from one of the functions.</returns>
+        public static U SwitchByRelative<T, U>(
             this IEnumerable<T> e,
             Func<T, bool> predicate,
             Func<U> allFn,
             Func<U> someFn,
             Func<U> noneFn)
         {
+            return SwitchByRelative(
+                e,
+                predicate,
+                () => allFn(),
+                _ => someFn(),
+                _ => noneFn()
+                );
+        }
+
+        /// <summary>
+        /// Executes one of three passed functions depending on the
+        /// relative amount of items that satisfy the predicate.
+        /// Items that did not satisfy the condition will be passed
+        /// into the switch function.
+        /// </summary>
+        /// <typeparam name="T">Type of the enumerable.</typeparam>
+        /// <typeparam name="U">Return type.</typeparam>
+        /// <param name="e">The enumerable.</param>
+        /// <param name="predicate">The predicate which switches the function.</param>
+        /// <param name="allFn">Function to execute when all items satisfy the predicate.</param>
+        /// <param name="someFn">Function to execute when some of the items satisfy the predicate.</param>
+        /// <param name="noneFn">Function to execute when none of the items satisfy the predicate.</param>
+        /// <returns>The value that was returned from one of the functions.</returns>
+        public static U SwitchByRelative<T, U>(
+            this IEnumerable<T> e,
+            Func<T, bool> predicate,
+            Func<U> allFn,
+            Func<IEnumerable<T>, U> someFn,
+            Func<IEnumerable<T>, U> noneFn)
+        {
             int trues = 0;
             int count = 0;
+
+            LinkedList<T> untrues = new LinkedList<T>();
 
             foreach (var item in e)
             {
                 count += 1;
                 if (predicate(item))
                     trues += 1;
+                else
+                    untrues.AddLast(item);
             }
 
             if (trues == count)
                 return allFn();
 
             if (trues == 0)
-                return noneFn();
+                return noneFn(untrues);
 
-            return someFn();
+            return someFn(untrues);
         }
-
 
         /// <summary>
         /// Wraps this object instance into an IEnumerable&lt;T&gt;
