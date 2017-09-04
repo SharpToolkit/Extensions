@@ -10,6 +10,7 @@ namespace SharpToolkit.Extensions.Collections.Test
     public class LinqTests
     {
         [TestMethod]
+        [DataRow(new bool[] {  }, 1)]
         [DataRow(new[] { false, false, false, false }, -1)]
         [DataRow(new[] { false, false, true, false }, 0)]
         [DataRow(new[] { true, false, false, false }, 0)]
@@ -36,6 +37,16 @@ namespace SharpToolkit.Extensions.Collections.Test
                     x => x);
 
             Assert.AreEqual(response, items.Count());
+        }
+
+        [TestMethod]
+        [DataRow(new int[] {  }, false)]
+        [DataRow(new[] { 0 }, true)]
+        [DataRow(new[] { 0, 1 }, false)]
+        [DataRow(new[] { 0, 1, 2 }, false)]
+        public void Linq_OnlyOne(int [] ints, bool response)
+        {
+            Assert.AreEqual(response, ints.OnlyOne());
         }
     }
 }

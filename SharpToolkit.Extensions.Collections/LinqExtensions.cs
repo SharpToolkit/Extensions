@@ -83,6 +83,8 @@ namespace SharpToolkit.Extensions.Collections
                     untrues.AddLast(item);
             }
 
+            // TODO: Throw excetion on zero items in collection. Undefined behaviour.
+
             if (trues == count)
                 return allFn();
 
@@ -90,6 +92,25 @@ namespace SharpToolkit.Extensions.Collections
                 return noneFn(untrues);
 
             return someFn(untrues);
+        }
+
+        /// <summary>
+        /// Returns true if the collection contains a single item only.
+        /// </summary>
+        /// <typeparam name="T">The type of the enumerable.</typeparam>
+        /// <param name="e">The enumerable.</param>
+        /// <returns>True if the collection contains a songle ite,</returns>
+        public static bool OnlyOne<T>(this IEnumerable<T> e)
+        {
+            int i = 0;
+            foreach (var item in e)
+            {
+                i += 1;
+                if (i > 1)
+                    break;
+            }
+
+            return 1 == i;
         }
 
         /// <summary>
