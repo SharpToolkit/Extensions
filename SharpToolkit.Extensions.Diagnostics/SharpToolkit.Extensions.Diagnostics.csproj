@@ -12,4 +12,8 @@
     <PackageProjectUrl>https://github.com/SharpToolkit/Extensions</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SharpToolkit.Extensions.Collections\SharpToolkit.Extensions.Collections.csproj" />
+  </ItemGroup>
+
 </Project>
