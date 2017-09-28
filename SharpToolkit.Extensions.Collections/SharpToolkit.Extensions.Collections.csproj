@@ -3,13 +3,15 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard1.6;net45</TargetFrameworks>
     <Version>0.1.0</Version>
+    <FileVersion>0.1.0.0</FileVersion>
+    <Version>0.1.0</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Dmitriy Sorkin</Authors>
     <Company>SharpToolkit</Company>
     <Product>SharpToolkit</Product>
     <Description>A collection of extensions and tools for System.Collections namespace.</Description>
     <PackageLicenseUrl>https://raw.githubusercontent.com/SharpToolkit/Extensions/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/SharpToolkit/Extensions</PackageProjectUrl>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>

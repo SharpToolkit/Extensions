@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SharpToolkit.Extensions.Collections
@@ -139,6 +140,17 @@ namespace SharpToolkit.Extensions.Collections
             {
                 action(item);
             }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="collection"></param>
+        /// <returns></returns>
+        public static LinkedList<T> ToLinkedList<T>(this IEnumerable<T> collection)
+        {
+            return collection.Aggregate(new LinkedList<T>(), (aggr, cur) => { aggr.AddLast(cur); return aggr; });
         }
 
     }

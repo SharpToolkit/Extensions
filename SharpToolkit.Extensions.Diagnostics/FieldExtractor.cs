@@ -67,7 +67,7 @@ namespace SharpToolkit.Extensions.Diagnostics
                 members.Zip(
                 extractors,
                     (m, e) => (type, m, e))
-                    .ToArray();
+                    .ToLinkedList();
 
             
         }
@@ -122,7 +122,7 @@ namespace SharpToolkit.Extensions.Diagnostics
                 .Cast<object>()
                 .SelectMany(x => convertObject(x, extracted))
                 .Union(obj.Yield())
-                .ToArray();
+                .ToLinkedList();
         }
 
         private class ReferenceEqualityComparer : IEqualityComparer<object>
