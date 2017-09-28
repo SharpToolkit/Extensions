@@ -10,6 +10,7 @@ namespace SharpToolkit.Extensions.Diagnostics.Test
     [TestClass]
     public class FieldExtractorTests
     {
+        // TODO: Add proper tests
         [TestMethod]
         public void FieldExtractor_Extract()
         {

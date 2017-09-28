@@ -1,4 +1,4 @@
-﻿using SharpToolkit.Extensions.Collections;
+﻿
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +67,7 @@ namespace SharpToolkit.Extensions.Diagnostics
                 members.Zip(
                 extractors,
                     (m, e) => (type, m, e))
-                    .ToLinkedList();
+                    .ToArray();
 
             
         }
@@ -110,19 +110,19 @@ namespace SharpToolkit.Extensions.Diagnostics
             {
                 return new FieldExtractor(obj.GetType())
                     .Extract(obj)
-                    .Union(obj.Yield());
+                    .Union(new[] { obj });
             }
 
             if (obj.GetType().GetElementType().GetTypeInfo().IsPrimitive || obj.GetType().IsEnum)
-                return obj.Yield();
+                return new[] { obj };
 
             var arr = (IEnumerable)obj;
 
             return arr
                 .Cast<object>()
                 .SelectMany(x => convertObject(x, extracted))
-                .Union(obj.Yield())
-                .ToLinkedList();
+                .Union(new[] { obj })
+                .ToArray();
         }
 
         private class ReferenceEqualityComparer : IEqualityComparer<object>
