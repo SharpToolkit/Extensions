@@ -98,4 +98,14 @@ namespace SharpToolkit.Extensions.Diagnostics.Test
                 .ToDictionary(x => x.Key, x => x.Value);
         }
     }
+
+    class RecursiveTargetOuter
+    {
+        public RecursiveTargetInner Inner { get; set; }
+    }
+
+    class RecursiveTargetInner
+    {
+        public RecursiveTargetOuter Outer { get; set; }
+    }
 }

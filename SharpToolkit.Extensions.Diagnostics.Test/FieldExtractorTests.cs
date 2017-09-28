@@ -28,5 +28,17 @@ namespace SharpToolkit.Extensions.Diagnostics.Test
 
             Assert.IsFalse(extracted1.Any(x => extracted2.Any(y => object.ReferenceEquals(x, y))));
         }
+
+        [TestMethod]
+        public void FieldExtractor_Recursive_InnerOuter()
+        {
+            var t1 = new RecursiveTargetOuter();
+            var t2 = new RecursiveTargetInner();
+
+            t1.Inner = t2;
+            t2.Outer = t1;
+
+            var e = new FieldExtractor(typeof(RecursiveTargetOuter)).Extract(t1);
+        }
     }
 }

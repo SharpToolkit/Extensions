@@ -99,7 +99,8 @@ namespace SharpToolkit.Extensions.Diagnostics
         // TODO: optimize
         private static IEnumerable<object> convertObject(object obj, HashSet<object> extracted)
         {
-            if (obj == null)
+            if (obj == null ||
+                extracted.Contains(obj))
                 return Enumerable.Empty<object>();
 
             if (obj.GetType().GetTypeInfo().ImplementedInterfaces.Contains(typeof(IEqualityComparer))
@@ -109,7 +110,7 @@ namespace SharpToolkit.Extensions.Diagnostics
             if (obj.GetType().IsArray == false)
             {
                 return new FieldExtractor(obj.GetType())
-                    .Extract(obj)
+                    .Extract(obj, extracted)
                     .Union(new[] { obj });
             }
 
@@ -151,23 +152,21 @@ namespace SharpToolkit.Extensions.Diagnostics
         {
             var extractors = getExtractors(obj.GetType());
 
-            var list = new HashSet<object>(new ReferenceEqualityComparer());
+            
+
+            extracted.Add(obj);
 
             foreach (var i in extractors)
             {
-                if (obj == null ||
-                    list.Contains(obj))
-                    continue;
-
-                var es = i.extractor(obj, list)
+                var es = i.extractor(obj, extracted)
                     .Where(x => x != null)
                     .Distinct(new ReferenceEqualityComparer());
 
                 foreach (var e in es)
-                    list.Add(e);
+                    extracted.Add(e);
             }
 
-            this.ExtractedObjects = list;
+            this.ExtractedObjects = extracted;
 
             return this.ExtractedObjects;
         }
