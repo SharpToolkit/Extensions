@@ -48,5 +48,27 @@ namespace SharpToolkit.Extensions.Collections.Test
         {
             Assert.AreEqual(response, ints.OnlyOne());
         }
+
+        private class ForEachTestClass
+        {
+            public int Number { get; set; }
+        }
+
+        [TestMethod]
+        public void Linq_ForEach()
+        {
+            var list = new[]
+            {
+                new ForEachTestClass { Number = 1 },
+                new ForEachTestClass { Number = 2 },
+                new ForEachTestClass { Number = 3 }
+            };
+
+            list.ForEach(x => x.Number++);
+
+            Assert.AreEqual(2, list[0].Number);
+            Assert.AreEqual(3, list[1].Number);
+            Assert.AreEqual(4, list[2].Number);
+        }
     }
 }

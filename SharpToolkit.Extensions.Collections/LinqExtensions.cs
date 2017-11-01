@@ -139,9 +139,9 @@ namespace SharpToolkit.Extensions.Collections
             foreach (var item in collection)
             {
                 action(item);
-
-                yield return item;
             }
+
+            return collection;
         }
 
         /// <summary>
