@@ -133,12 +133,14 @@ namespace SharpToolkit.Extensions.Collections
         /// <typeparam name="T"> Type of the object. </typeparam>
         /// <param name="collection"> The Collection. </param>
         /// <param name="action"> The action to perform on each collection item. </param>
-        public static void ForEach<T>(this IEnumerable<T> collection, Action<T> action)
+        public static IEnumerable<T> ForEach<T>(this IEnumerable<T> collection, Action<T> action)
         {
             if (collection == null) throw new NullReferenceException(nameof(collection));
             foreach (var item in collection)
             {
                 action(item);
+
+                yield return item;
             }
         }
 
